@@ -105,25 +105,16 @@ Route::prefix('/card')->Controller()->group(function(){
 
 })->name('card');
 ```
-#### Controller de group
+#### Route pour controller de groupe
 
 Methode : 
 
+
 ```php
-Route::prefix('/root')->group(function(type $param, Request $request){
-    Route::get('/', function (type params){
-        return route('other', ['id'=>1, 'slug'=>'some-text']);
-    })->name('index');
+Route::prefix('/root')->controller(FlashCardController::class)->group(function(){
 
-    Route::get('/{slug}-{id}', function (type params){
-        return 'card :'.$slug."   ".$id ."    ". $request->input('name', 'Inconnue');
-    })-> where([
-        "id"=> 'regex', 
-        "slug"=> 'regex'
-    ])->name('other');
-
-
-})->name('root');
+    Route::get('/', 'index')-> name('index');
+})->name('card');
 ```
 ### View
 Views (dans ressource) => écriture en BladePHP 
