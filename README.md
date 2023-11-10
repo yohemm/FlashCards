@@ -84,7 +84,7 @@ Route::prefix('/root')->group(function(type $param, Request $request){
 ```
 Exemple :
 ```php
-Route::prefix('/card')->group(function(){
+Route::prefix('/card')->Controller()->group(function(){
     Route::get('/', function (Request $request) {
         return "<a href='".route('front',["id"=>1, "slug"=>"new-test-mgl"])."'>a</a>";
     })-> name('index');
@@ -105,7 +105,26 @@ Route::prefix('/card')->group(function(){
 
 })->name('card');
 ```
+#### Controller de group
 
+Methode : 
+
+```php
+Route::prefix('/root')->group(function(type $param, Request $request){
+    Route::get('/', function (type params){
+        return route('other', ['id'=>1, 'slug'=>'some-text']);
+    })->name('index');
+
+    Route::get('/{slug}-{id}', function (type params){
+        return 'card :'.$slug."   ".$id ."    ". $request->input('name', 'Inconnue');
+    })-> where([
+        "id"=> 'regex', 
+        "slug"=> 'regex'
+    ])->name('other');
+
+
+})->name('root');
+```
 ### View
 Views (dans ressource) => écriture en BladePHP 
 ```php

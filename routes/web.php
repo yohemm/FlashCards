@@ -19,16 +19,16 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('/card')->group(function(){
+Route::prefix('/card')->controller(FlashCardController::class)->group(function(){
 
-    Route::get('/', [FlashCardController::class, 'index'])-> name('index');
+    Route::get('/', 'index')-> name('index');
 
-    Route::get('/{slug}-{id}', [FlashCardController::class, 'cardFront'])-> where([
+    Route::get('/{slug}-{id}', 'cardFront')-> where([
         "id"=> '[0-9]+', 
         "slug"=> '[a-z0-9\-]+'
     ])->name('front');
 
-    Route::get('/{slug}-{id}/back',[FlashCardController::class, 'cardBack'])-> where([
+    Route::get('/{slug}-{id}/back','cardBack')-> where([
         "id"=> '[0-9]+', 
         "slug"=> '[a-z0-9\-]+'
     ])->name('back');
