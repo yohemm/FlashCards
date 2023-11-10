@@ -1,66 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FlashCard
+    Les cartes sont répertorier dans un theme
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    Un theme peut être le sous theme d'un autre(en empechant les boucles, si les themes parant est deja dans les registres des sous-theme on passe au suivant)
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    Des qu'on aborde une notion importante d'un sujet, on trouve une ou des question sur celui-ci et on en fait une flashCard
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    Lors d'une partie:
+    Le joueur choisit un ou plusieur themes, ce qui inclu leur sous themes
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Chaque bonne réponse incrémente cela change les taux de reussit de la carte, se qui influe sur le sa recommandation
 
-## Learning Laravel
+## To DO
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### MVP
+- CRUD
+- Ajouter les Foreign Key dans la creation de bd (Matteo)
+- Page de creation de card
+- Page de Connexion (Matteo)
+### Impératif
+- Insertion psql (Matteo)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Dans un avenir proche
+- Creation du schema de BBD (Matteo)
+- MiddleWare de connexion
+- market de Theme
+### A y pensé
+- market de cards uniquement
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Aide Laravelles
+### Bases
+get => recevoir url
+post => envoyer
+dump <==> varDump (de laravel)
+#### Architecture directory
+    /
+    |-> CONCEPTION : information sup. sur le projet
+    |->app
+        |->Http
+            |->Controllers : Les controllers
+            |->MiddleWare : Les middleWare
+    |->public : fichier qui run laravels
+    |->ressources
+        |->views : page PHP
+        |->css : ressources CSS
+        |->js : ressources js
+    |->routes : Les différentes routes
+    |->storage : stockage dynamic(contient des fichiers en rapport avec les DB)
+    |->tests : test unitaire
+    |->vendor : packet installer
+    |->.env : config environement
+    |-> artisan : app php config
+    |-> composer : app d'installation de paquets
+### Route
+#### Simple
+Methode :
+```php
+Route::get('/link',[Controller:class, 'methodes'])
+```
+Exemple :
+```php
+Route::get('/bonjour',[Controller:class, 'index'])
+```
 
-## Laravel Sponsors
+#### Most Complexe
+Methode : 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```php
+Route::prefix('/root')->group(function(type $param, Request $request){
+    Route::get('/', function (type params){
+        return route('other', ['id'=>1, 'slug'=>'some-text']);
+    })->name('index');
 
-### Premium Partners
+    Route::get('/{slug}-{id}', function (type params){
+        return 'card :'.$slug."   ".$id ."    ". $request->input('name', 'Inconnue');
+    })-> where([
+        "id"=> 'regex', 
+        "slug"=> 'regex'
+    ])->name('other');
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+})->name('root');
+```
+Exemple :
+```php
+Route::prefix('/card')->group(function(){
+    Route::get('/', function (Request $request) {
+        return "<a href='".route('front',["id"=>1, "slug"=>"new-test-mgl"])."'>a</a>";
+    })-> name('index');
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    Route::get('/{slug}-{id}', function (string $slug, string $id, Request $request) {
+        return 'card :'.$slug."   ".$id ."    ". $request->input('name', 'Inconnue');
+    })-> where([
+        "id"=> '[0-9]+', 
+        "slug"=> '[a-z0-9\-]+'
+    ])->name('front');
 
-## Code of Conduct
+    Route::get('/{slug}-{id}/back', function (string $slug, string $id, Request $request) {
+        return 'card : voici le back'. $request->input('name', 'Inconnue');
+    })-> where([
+        "id"=> '[0-9]+', 
+        "slug"=> '[a-z0-9\-]+'
+    ])->name('back');
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+})->name('card');
+```
 
-## Security Vulnerabilities
+### View
+Views (dans ressource) => écriture en BladePHP 
+```php
+<h1>{{ $name }}<h1> #Contre injection js
+<h1>{ $name }<h1> #laisse tou passe
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Controller
+```php
+public function name()
+{
+    return view('view'), ['name'=>'JeanMi']
+}
+```
+Un controlleur sert a regroupper les fonctions des Routes par catégories
+Autrement dis:
+- code plus lisible dans Route
+- code mieux regroupper, 1 controlleur == toutes les pages autoure d'une mécanique
+
+
+### Injection de dépendance
+Route:
+```php
+Route::get('/link/{user}',[Controller:class, 'methodes'])
+```
+View:
+```php
+<h1>{ $name }<h1> #laisse tou passe
+```
+Controller:
+```php
+public function name(User $user)
+{
+    return view(
+        'view',
+        ['name'=>$user->name]
+        );
+}
+```

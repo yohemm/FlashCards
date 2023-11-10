@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\FlashCardController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +17,29 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::prefix('/card')->group(function(){
+
+    Route::get('/', [FlashCardController::class, 'index'])-> name('index');
+
+    Route::get('/{slug}-{id}', [FlashCardController::class, 'cardFront'])-> where([
+        "id"=> '[0-9]+', 
+        "slug"=> '[a-z0-9\-]+'
+    ])->name('front');
+
+    Route::get('/{slug}-{id}/back',[FlashCardController::class, 'cardBack'])-> where([
+        "id"=> '[0-9]+', 
+        "slug"=> '[a-z0-9\-]+'
+    ])->name('back');
+
+})->name('card');
+    
+Route::get('/theme', function (Request $request) {
+    return 'theme';
+})->name('theme.index');
+
+Route::get('/user', function (Request $request) {
+    return 'user';
+})->name('user.index');
+

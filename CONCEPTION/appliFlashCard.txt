@@ -38,16 +38,3 @@ Moyenne semipoderer	avantage au peu joué	avantage a ceux jouer il y a longtemps
 ((c.r+c.rp)/2)-1 *(		 100*(nbM-1)+		5*((now-daj)/(lp-daj))		)	 + maxPlay/play*(nbM-1)+ ((lp-daj)/(now-daj)-1)
 												contre reussite de le debit
 
-Les cartes sont répertorier dans un theme
-
-Un theme peut être le sous theme d'un autre(en empechant les boucles, si les themes parant est deja dans les registres des sous-theme on passe au suivant)
-
-
-Des qu'on aborde une notion importante d'un sujet, on trouve une ou des question sur celui-ci et on en fait une flashCard
-
-Lors d'une partie:
-Le joueur choisit un ou plusieur themes, ce qui inclu leur sous themes
-
-Chaque bonne réponse incrémente cela change les taux de reussit de la carte, se qui influe sur le sa recommandation
-
-
