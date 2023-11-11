@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\FlashCardController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -16,7 +18,8 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('root');
+
 
 
 Route::prefix('/card')->controller(FlashCardController::class)->group(function(){
@@ -35,11 +38,24 @@ Route::prefix('/card')->controller(FlashCardController::class)->group(function()
 
 })->name('card');
     
-Route::get('/theme', function (Request $request) {
-    return 'theme';
-})->name('theme.index');
 
-Route::get('/user', function (Request $request) {
-    return 'user';
-})->name('user.index');
 
+Route::prefix('/theme')->controller(ThemeController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+
+})->name('theme');
+
+
+
+Route::prefix('/user')->controller(UserController::class)->group(function(){
+
+    Route::get('/', 'userPage')->name('index');
+
+    Route::get('/{name}-{id}', 'userPage')->where([
+            "id"=>"[0-9]+",
+            "name" => "[a-z0-9\-\_]+"
+        ])->name('index');
+
+})->name('user');
+    

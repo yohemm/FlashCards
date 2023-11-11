@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperFlashCard
+ * @mixin IdeHelperTheme
  */
-class FlashCard extends Model
+class Theme extends Model
 {
     use HasFactory;
 }
