@@ -157,3 +157,108 @@ public function name(User $user)
         );
 }
 ```
+
+### BDD
+---
+#### Migration
+```sh
+php artisan make:migration createNamesTable
+```
+fichier migration dans /database/migrations/...create_names_table
+```php
+ public function up(): void
+{
+    Schema::create('names', function (Blueprint $table) {
+        $table->id();
+        $table->timestamps();
+        $table->string('question');
+        $table->string('answer');
+        $table->string('explication');
+        $table->float('ratio'->nullable());
+        $table->integer('nb_try')->nullable();
+        $table->foreignId('owner_id')->constrained('users');
+    });
+}
+
+ public function down(): void
+{
+    Schema::dropIfExists('names');
+}
+```
+
+---
+#### Model
+
+```sh
+php artisan make:Model Name
+```
+
+Model dans /app/Models/Name.php
+
+---
+#### Manipulation de Model
+
+__Creation__
+```php
+$model = new Model();
+$model->atr = 'val';
+$model->save();
+
+$model = Model::create([
+    'param1' => 'Value1',
+    'param2' => 'Value2',
+    'param3' => 'Value3',
+])
+```
+/!\ pour utiliser la méthode static vous de configurer le Model a fin de definir les parametre creable de cette facon:
+```php
+class Model extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'actParam',
+        ...
+    ];
+
+    protected $quarded = [
+        'id',
+        ...
+    ];
+}
+```
+
+---
+__Recherche__
+```php
+$myCollec =  Model::all();//genere une Collection tous les objs
+$myCollec =  Model::all([params]);//
+$myCollec =  Model::find($id,[params]);//trouve automatiquement
+$myCollec =  Model::findOrFail($id,[params]);//trouve automatiquement ou envoi err 404
+$myCollec =  Model::paginate(1,[params]);//Cree un pagination commencant a n (ici 1)
+$myCollec =  Model::query([params])->where('id', 1)->frist();//
+$myCollec->first();//Les collections, a l'instart des liste traditionneles peuvent avoir des fonction
+$myCollec->where();
+```
+permet creer un systeme de page trés simplement en générant un post page, si on l'associe a un id dans l'url cela adapte la page
+
+---
+__Update__
+
+```php
+$model = Model::find(1);
+$model->param = 'newVal';
+Medel::save();
+
+
+Model::query()->where('param', "<=", 2)->update();
+```
+---
+__Delete__
+
+```php
+$model = Model::find(1);
+$model->delete();
+
+
+Model::query()->where('param', "<=", 2)->delete();
+```
