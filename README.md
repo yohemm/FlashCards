@@ -14,6 +14,7 @@
 ## To DO List
 ### To Do
 #### MVP
+- Formulaire User
 - Page de creation de card
 - Reflexion et documentation du style du site(Matteo)
 - Strucutre définitive des Tables du projet(Matteo)
@@ -27,6 +28,7 @@
 - market de cards uniquement
 
 ### In Progress
+- Formulaire Card
 - Routing
 - CRUD:
     - card
@@ -355,4 +357,52 @@ $model->delete();
 
 
 Model::query()->where('param', "<=", 2)->delete();
+```
+
+#### Formulaire/Request personalisé
+```sh
+php artisan make:Request MonNomRequest
+```
+rules :
+Régle de chaque inputs du formulaire
+
+prepareForValidation:
+Modification a ajouté a des inputs existante ou création d'inputs
+
+```php
+public function rules(): array
+{
+    return [
+        'question' => ['required', 'min:10'],
+        'answer' => ['required', 'min:8'],
+        'slug' => ['required', 'min:8', 'regex:/^[0-9a-z\-]+$/'],
+        'owner_id' => ['required', 'regex:/^[0-9]+$/'],
+        'explication' => []
+    ];
+}
+
+public function prepareForValidation()
+{
+    $this->merge([
+        'slug' => $this->input('slug') ?: \Str::slug($this->input('question')),
+        'owner_id' => $this->input('owner_id') ?: User::all()->first()->id
+    ]);
+}
+```
+
+#### Formulaire Blade
+(toute ses balises sont au sein de la balise \<form>)
+creation clef de sécurité de formulaire(permet de vérifié qu'il n'est pas tomber par hasard sur ulr POST)
+```php
+@csrf
+```
+afficher les messsages d'erreur
+```php
+@error(['slug','owner_id'])
+    {{ $message }}
+@enderror
+```
+definir la method
+```php
+@method($card->id ? "PATCH" : "POST")
 ```

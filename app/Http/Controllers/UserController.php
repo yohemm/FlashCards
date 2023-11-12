@@ -51,7 +51,7 @@ class UserController extends Controller
         return 'user created id :'.$user->id;
     }
 
-    public function update(){
+    public function edit(){
         return 'update user';
     }
 

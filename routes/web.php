@@ -37,7 +37,11 @@ Route::prefix('/card')->controller(FlashCardController::class)->group(function()
     ])->name('card.play');
 
     Route::post('/new','store');
-    Route::get('/new','create')->name('create');
+    Route::get('/new','create')->name('card.create');
+    Route::get('/{card}/edit','edit')->name('card.edit')-> where([
+        "card"=> '[0-9]+' ]);
+    Route::patch('/{card}/edit','update')-> where([
+        "card"=> '[0-9]+']);
 
 })->name('card');
     

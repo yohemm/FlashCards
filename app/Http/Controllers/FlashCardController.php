@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\User;
-use App\Http\Requests\CreateCardRequest;
+use App\Http\Requests\FormCardRequest;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Termwind\Components\Dd;
@@ -50,7 +50,7 @@ class FlashCardController extends Controller
         return 'card : PLAYING'. $request->input('name', 'Inconnue');
     }
 
-    public function store(CreateCardRequest $request){
+    public function store(FormCardRequest $request){
         
         
         $card = Card::create($request->validated());
@@ -59,11 +59,18 @@ class FlashCardController extends Controller
 
     }
     public function create( Request $request)
-    {     
-        return view('card.create');
+    {
+        $card = new Card;
+        $card->question = "Why you don't find the best question?";
+        $card->answer = "Because is your best question!";
+        return view('card.create',['card'=>$card]);
     }
 
-    public function update(){
-        return "C"
+    public function edit(Card $card){
+        return view('card.edit', ['card' => $card]);
+    }
+    public function update(Card $card, FormCardRequest $request){
+        $card->update($request->validated());
+        return redirect()->route('card.show', ['slug'=>$card->slug, 'id'=>$card->id])->with('success', "Votre carte a bien été modifier");
     }
 }

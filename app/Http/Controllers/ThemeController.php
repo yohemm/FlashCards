@@ -18,7 +18,7 @@ class ThemeController extends Controller
         return 'theme creation';
     }
 
-    public function update(string $label,string  $id, Request $request){
+    public function edit(string $label,string  $id, Request $request){
         return 'theme update';
     }
 }
