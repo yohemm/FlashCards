@@ -11,22 +11,28 @@
 
     Chaque bonne réponse incrémente cela change les taux de reussit de la carte, se qui influe sur le sa recommandation
 
-## To DO
-
-### MVP
-- CRUD
-- Ajouter les Foreign Key dans la creation de bd (Matteo)
+## To DO List
+### To Do
+#### MVP
 - Page de creation de card
+- Reflexion et documentation du style du site(Matteo)
+- Strucutre définitive des Tables du projet(Matteo)
+#### Dans un avenir proche
 - Page de Connexion (Matteo)
-### Impératif
-- Insertion psql (Matteo)
-
-### Dans un avenir proche
 - Creation du schema de BBD (Matteo)
 - MiddleWare de connexion
 - market de Theme
-### A y pensé
+#### A y pensé
+- admin
 - market de cards uniquement
+
+### In Progress
+- Routing
+- CRUD:
+    - card
+    - user
+
+### Done
 
 ## Aide Laravelles
 ### Bases
@@ -195,7 +201,7 @@ __Rea=lation 1 n__
         $table->timestamps();
     });
     Schema::table('nameWithFuturFK', function (Blueprint $table){
-        $table->dropForeingIdFor(NameToBeJoin::class)->constrained()->cascadeOnDelete();
+        $table->foreingIdFor(NameToBeJoin::class)->constrained()->cascadeOnDelete();
     });
 }
  public function down(): void
@@ -308,8 +314,8 @@ $myCollec->first();//Les collections, a l'instart des liste traditionneles peuve
 $myCollec->first()->fkname->fkattr //Accede a une référence si Laison fait dans le model "Model" et jointure effectuer en migration (n->1)
 $myCollec->first()->fknames->fkattr // (1->n)
 $myCollec->first()->fknames->isEmpty() // retourn un boolean 1:si pas de réf
-
 Model::has('fkname', '>=', 1) // tout les models ayant au moins une référence
+
 
 $myCollec->where()
 

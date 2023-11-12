@@ -1,6 +1,7 @@
 # Table
 ## users
 name : string
+power : int // donne des access, marche sur un format binaire (ex : 1+2+4+8 //card systeme + market + creation user simple + management des access)
 password : string
 email : string
 

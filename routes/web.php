@@ -24,17 +24,20 @@ Route::get('/', function () {
 
 Route::prefix('/card')->controller(FlashCardController::class)->group(function(){
 
-    Route::get('/', 'index')-> name('index');
+    Route::get('/', 'index')-> name('card.index');
 
-    Route::get('/{slug}-{id}', 'cardFront')-> where([
+    Route::get('/{slug}-{id}', 'card')-> where([
         "id"=> '[0-9]+', 
         "slug"=> '[a-z0-9\-]+'
-    ])->name('front');
+    ])->name('card.show');
 
-    Route::get('/{slug}-{id}/back','cardBack')-> where([
+    Route::get('/{slug}-{id}/play','play')-> where([
         "id"=> '[0-9]+', 
         "slug"=> '[a-z0-9\-]+'
-    ])->name('back');
+    ])->name('card.play');
+
+    Route::post('/new','store');
+    Route::get('/new','create')->name('create');
 
 })->name('card');
     
@@ -42,7 +45,7 @@ Route::prefix('/card')->controller(FlashCardController::class)->group(function()
 
 Route::prefix('/theme')->controller(ThemeController::class)->group(function(){
 
-        Route::get('/', 'index')->name('index');
+        Route::get('/', 'index')->name('theme.index');
 
 })->name('theme');
 
@@ -50,12 +53,13 @@ Route::prefix('/theme')->controller(ThemeController::class)->group(function(){
 
 Route::prefix('/user')->controller(UserController::class)->group(function(){
 
-    Route::get('/', 'userPage')->name('index');
+    Route::get('/', 'single')->name('user.index');
+    Route::get('new', 'create')->name('user.create');
 
-    Route::get('/{name}-{id}', 'userPage')->where([
+    Route::get('/{name}-{id}', 'single')->where([
             "id"=>"[0-9]+",
             "name" => "[a-z0-9\-\_]+"
-        ])->name('index');
+        ])->name('user.show');
 
 })->name('user');
     

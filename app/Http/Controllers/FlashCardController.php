@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Card;
 use App\Models\User;
+use App\Http\Requests\CreateCardRequest;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Termwind\Components\Dd;
 
 class FlashCardController extends Controller
 {
     public function index()
-    {   
-        // $user->name = "adm";
-        // $user->email = "email";
-        // $user->password = "password";
-        // $user->save();
-
+    {
         // $card = new Card;
         // $card->question = "Quesce qu'un commutateur ?";
         // $card->answer = "Je ne sais pas";
@@ -25,21 +22,48 @@ class FlashCardController extends Controller
         // $card->owner_id = 1;
         // $card->save();
 
-        return dd(Card::all(['question', 'answer', 'explication']));
-        return "<a href='".route('front',["id"=>1, "slug"=>"new-test-mgl"])."'>a</a><br>";
+        // return dd($card);
+
+        
+        return "<a href='".route('card.show',["id"=>1, "slug"=>"new-test-mgl"])."'>Exemple de card</a><br>";
     }
 
-    public function cardFront(string $slug, string $id){
+    public function card(string $slug, string $id){
+        $messages = "";
+        if(session('success')){
+            $messages =session('success');
+        }
         $card = Card::where("id",$id)->first();
         if($card !== null)
         {
-            return dd($card);
+            if($slug != $card->slug)
+            {
+                return redirect()->route('card.show', ['slug'=>$card->slug, 'id'=>$card->id]);
+            }
+            return $messages.$card;
         }
         return redirect('card');
     }
 
-    public function cardBack(string $slug, string $id, Request $request)
+    public function play(string $slug, string $id, Request $request)
     {        
-        return 'card : voici le back'. $request->input('name', 'Inconnue');
+        return 'card : PLAYING'. $request->input('name', 'Inconnue');
+    }
+
+    public function store(CreateCardRequest $request){
+        
+        
+        $card = Card::create($request->validated());
+        
+        return redirect()->route('card.show', ['slug'=>$card->slug, 'id'=>$card->id])->with('success', "Votre carte a bien été créer");
+
+    }
+    public function create( Request $request)
+    {     
+        return view('card.create');
+    }
+
+    public function update(){
+        return "C"
     }
 }

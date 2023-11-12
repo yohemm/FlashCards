@@ -14,19 +14,21 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('question')->nullable();
-            $table->string('answer')->nullable();
+            $table->string('question');
+            $table->string('answer');
             $table->string('explication')->nullable();
-            $table->float('ratio');
-            $table->integer('nb_try');
-            $table->foreignId('owner_id')->constrained('users');
+            $table->string('slug');
+            $table->float('ratio')->default(0.5);
+            $table->integer('nb_try')->default(0);
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
+
         Schema::create('themes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name')->nullable();
-            $table->string('password')->nullable();
-            $table->string('email')->nullable();
+            $table->string('label')->nullable();
+            $table->string('description')->nullable();
         });
 
         Schema::create('users_themes', function (Blueprint $table) {
@@ -49,6 +51,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('cards', function (Blueprint $table){
+            $table->dropForeign(['owner_id']);
+        });
         Schema::dropIfExists('cards');
         Schema::dropIfExists('users');
         Schema::dropIfExists('themes');

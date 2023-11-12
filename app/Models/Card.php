@@ -14,9 +14,15 @@ class Card extends Model
     protected $fillable = [
         'question',
         'answer',
-        'explication'
+        'explication',
+        'slug',
+        'owner_id',
     ];
 
+    public function owner()
+    {
+        return this->belongsTo(User::class);
+    }
     // protected $quarded = [
     //     'id'
     // ];
