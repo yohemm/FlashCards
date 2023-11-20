@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\FormUserRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class UserController extends Controller
@@ -11,11 +13,10 @@ class UserController extends Controller
     {
         if($id == null){
             echo 'id null';
-            if($request->session()->has('user'))
+            if(Auth::user())
             {
-                return redirect('/');
-                // $id = $request->sessions()->get('user');
-                echo 'mais compte existant';
+                dd(Auth::user());
+                
             }
             else
             {              
@@ -40,19 +41,30 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function create(Request $request)
+    public function create()
     {
         $user = new User();
         $user->name = "adm";
-        $user->email = "email";
-        $user->password = "password";
+        $user->email = "email@email.em";
+        $user->password = bcrypt("password");
         $user->power = 63;
         $user->save();
         return 'user created id :'.$user->id;
+        $user = new User();
+        return view('user.singnup', ['user'=>$user]);
     }
 
-    public function edit(){
+    public function store(FormUserRequest $request, User $user){
+        $user->update($request->validated());
         return 'update user';
     }
-
+    
+    public function edit(User $user){
+        return view('user.edit', ['user'=>$user]);
+    }
+    public function update(FormUserRequest $request, User $user){
+        $user->update($request->safe()->except(['password','password_confirmation']));
+        return 'update user';
+    }
+    
 }
