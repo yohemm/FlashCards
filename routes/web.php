@@ -62,8 +62,12 @@ Route::delete('/logout', [AuthController::class,'logout'])->name('logout');
 Route::prefix('/user')->controller(UserController::class)->group(function(){
 
     Route::get('/', 'single')->name('user.index');
+
+
     Route::get('/new', 'create')->name('user.create')->middleware('auth') ;
     Route::post('/new', 'store')->middleware('auth');
+
+
     Route::get('{user}/edit', 'edit')->where([
             'user'=>'[0-9]+'
     ])->name('user.edit');

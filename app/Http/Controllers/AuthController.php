@@ -17,16 +17,16 @@ class AuthController extends Controller
     public function connection(FormUserRequest $request){
         // return redirect()->route('card.show', ['slug'=>'qsdfsq', 'id'=>3])->with('success', "Votre carte a bien été modifier");
         // return "<a href='".route('card.show',["id"=>1, "slug"=>"new-test-mgl"])."'>Exemple de card</a><br>";
-        $credentials = $request->only(['email','password']);
+        $credentials = $request->validated();
         if(Auth::attempt($credentials))
         {
             $request->session()->regenerate();
             return redirect()->intended(route('card.index'));
         }
-        return to_route('auth.login')->withErrors(['email'=>"email invalide"])->onlyInputs(['email','password']);
+        return redirect()->back()->withInput();
     }
     public function logout(){
         Auth::logout();
-        return to_route('auth.login')
+        return to_route('logout');
     }
 }

@@ -15,6 +15,7 @@
 @endphp
 
 
+@dump($errors)
 
 <!-- 
 Valeur de $status:
@@ -40,7 +41,7 @@ Valeur de $status:
     @enderror
     <div class="email-container">
         <label for="email">Email :</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" value="{{ old('email') }}">
         @error('email')
             {{ $message }}
         @enderror

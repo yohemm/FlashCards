@@ -35,4 +35,25 @@ class FormUserRequest extends FormRequest
             'password_confirmation' => ['required', 'min:8','same:password']
         ];
     }
+
+
+    public function messages(){
+        return[
+            'nom.required' => "le champs nom est requis",
+            'nom.min' => "le champs nom est trop court ",
+
+            'email.required' => "le champs email est requis",
+            'email.min' => "le champs email est trop court ",
+            'email.email' => "Le format email est requis",
+            'email.regex' => "Le format email est incorrect (regex)",
+            'email' => ['required', 'min:8','unique:users, email','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix'],
+
+            'password.required' => "le champs password est requis",
+            'password.min' => "le champs password est trop court ",
+            
+            'password_confirmation.required' => "le champs de confirmation password est requis",
+            'password_confirmation.min' => "le champs de confirmation password est trop court ",
+            'password_confirmation.same' => "le champs de confirmation password doit etre indentique au password ",
+        ];
+    }
 }

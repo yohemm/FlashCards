@@ -12,7 +12,7 @@ class UserController extends Controller
     public function single(Request $request,string $name=null, string $id=null)
     {
         if($id == null){
-            echo 'id null';
+            echo 'compte perso';
             if(Auth::user())
             {
                 dd(Auth::user());
@@ -30,33 +30,36 @@ class UserController extends Controller
         
         if($user !== null)
         {
-            if($name !== $user->name){
-                return redirect()->route('user.show', ['name'=>$user->name, 'id'=>$id]);
+            $userName = str_replace(" ", "_",$user->name);
+            if($name !== $userName ){
+                return redirect()->route('user.show', ['name'=>$userName, 'id'=>$id]);
             }
             return "  d ".$name."     <br>".$user."     <br>".$user->name;
-        }else{
-            return "pas d'user";
         }
+        
         echo("Error User not found!");
         return redirect('/');
     }
 
     public function create()
     {
+        // $user = new User();
+        // $user->name = "adm";
+        // $user->email = "email@email.em";
+        // $user->password = bcrypt("password");
+        // $user->power = 63;
+        // $user->save();
+        // return 'user created id :'.$user->id;
         $user = new User();
-        $user->name = "adm";
-        $user->email = "email@email.em";
-        $user->password = bcrypt("password");
-        $user->power = 63;
-        $user->save();
-        return 'user created id :'.$user->id;
-        $user = new User();
+        $user->power =7;
         return view('user.singnup', ['user'=>$user]);
     }
-
-    public function store(FormUserRequest $request, User $user){
-        $user->update($request->validated());
-        return 'update user';
+    
+    public function store(FormUserRequest $request){
+        $user = User::create([...$request->validated(), "power"=>7]);
+        dump($request->validated());
+        dump($user);
+        return 'create user';
     }
     
     public function edit(User $user){

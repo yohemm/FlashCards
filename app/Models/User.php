@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'power',
     ];
 
     /**
@@ -48,6 +49,6 @@ class User extends Authenticatable
     
     public function cardsCreated()
     {
-        return this->hasMany(Card::class);
+        return $this->hasMany(Card::class);
     }
 }

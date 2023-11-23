@@ -21,7 +21,7 @@ class Card extends Model
 
     public function owner()
     {
-        return this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
     // protected $quarded = [
     //     'id'
