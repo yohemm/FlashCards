@@ -1,3 +1,18 @@
+
+## cours
+
+/ : index
+/login : connection
+/logout : deconnection
+/user : compte perso
+/user/new : creation de compte
+/user/{pseudo}-{id} : compte
+/user/{id}/edit : compte
+/card/ : listing des cartes
+/card/ : listing des cartes
+/card/{slug}-{id} : inspection de carte
+/card/{id}/edit : edition de carte
+
 # Routing
 
 / : index page d'acceuille, montre un  exemple et propose une connection

@@ -6,6 +6,7 @@ use App\Models\Card;
 use App\Models\User;
 use App\Http\Requests\FormCardRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Termwind\Components\Dd;
 
@@ -25,7 +26,7 @@ class FlashCardController extends Controller
         // return dd($card);
 
         
-        return "<a href='".route('card.show',["id"=>1, "slug"=>"new-test-mgl"])."'>Exemple de card</a><br>";
+        return View('card.listing');
     }
 
     public function card(string $slug, string $id){
@@ -40,11 +41,15 @@ class FlashCardController extends Controller
             {
                 return redirect()->route('card.show', ['slug'=>$card->slug, 'id'=>$card->id]);
             }
-            return $messages.$card;
+            return View('card.single', ['card' => $card]);
         }
         return redirect('card');
     }
 
+    public function show(string $slug, string $id, Request $request)
+    {        
+        return View('card.single');
+    }
     public function play(string $slug, string $id, Request $request)
     {        
         return 'card : PLAYING'. $request->input('name', 'Inconnue');
@@ -54,7 +59,7 @@ class FlashCardController extends Controller
         
         
         $card = Card::create($request->validated());
-        
+        dd($request->validated());
         return redirect()->route('card.show', ['slug'=>$card->slug, 'id'=>$card->id])->with('success', "Votre carte a bien été créer");
 
     }

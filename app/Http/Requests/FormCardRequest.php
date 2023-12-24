@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class FormCardRequest extends FormRequest
 {
@@ -35,7 +36,7 @@ class FormCardRequest extends FormRequest
     {
         $this->merge([
             'slug' => $this->input('slug') ?: \Str::slug($this->input('question')),
-            'owner_id' => $this->input('owner_id') ?: User::all()->first()->id
+            'owner_id' => $this->input('owner_id') ?: Auth::user()->id
         ]);
     }
 }

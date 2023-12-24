@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FormUserRequest extends FormRequest
@@ -25,6 +27,13 @@ class FormUserRequest extends FormRequest
             return [
                 'email' => ['required', 'min:8','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix'],
                 'password' => ['required', 'min:8'],
+            ];
+
+        }
+        if(request()->route()->uri == 'user/{user}/edit'){
+            return [
+                'name' => ['required', 'min:8'],
+                'email' => ['required', 'min:8','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix', \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
             ];
 
         }

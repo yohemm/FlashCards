@@ -38,9 +38,9 @@ Route::prefix('/card')->controller(FlashCardController::class)->group(function()
     ])->name('card.play');
 
     Route::post('/new','store');
-    Route::get('/new','create')->name('card.create');
+    Route::get('/new','create')->name('card.create')->middleware('auth');
     Route::get('/{card}/edit','edit')->name('card.edit')-> where([
-        "card"=> '[0-9]+' ]);
+        "card"=> '[0-9]+' ])->middleware('auth');
     Route::patch('/{card}/edit','update')-> where([
         "card"=> '[0-9]+']);
 
@@ -57,27 +57,27 @@ Route::prefix('/theme')->controller(ThemeController::class)->group(function(){
 
 Route::get('/login', [AuthController::class,'login'])->name('login');
 Route::post('/login', [AuthController::class,'connection']);
-Route::delete('/logout', [AuthController::class,'logout'])->name('logout');
+Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 
 Route::prefix('/user')->controller(UserController::class)->group(function(){
 
     Route::get('/', 'single')->name('user.index');
 
 
-    Route::get('/new', 'create')->name('user.create')->middleware('auth') ;
-    Route::post('/new', 'store')->middleware('auth');
+    Route::get('/new', 'create')->name('user.create') ;
+    Route::post('/new', 'store');
 
 
-    Route::get('{user}/edit', 'edit')->where([
+    Route::get('/{user}/edit', 'edit')->where([
             'user'=>'[0-9]+'
-    ])->name('user.edit');
-    Route::patch('{user}/edit', 'update')->where([
+    ])->name('user.edit')->middleware('auth');
+    Route::patch('/{user}/edit', 'update')->where([
             'user'=>'[0-9]+'
-    ]);
+    ])->middleware('auth');
 
     Route::get('/{name}-{id}', 'single')->where([
             "id"=>"[0-9]+",
-            "name" => "[a-z0-9\-\_]+"
+            "name" => "[a-zA-Z0-9\-\_]+"
         ])->name('user.show');
 
 })->name('user');

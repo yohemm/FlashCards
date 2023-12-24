@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Requests\FormUserRequest;
 use Illuminate\Support\Facades\Auth;
@@ -12,17 +13,10 @@ class UserController extends Controller
     public function single(Request $request,string $name=null, string $id=null)
     {
         if($id == null){
-            echo 'compte perso';
             if(Auth::user())
             {
-                dd(Auth::user());
+                $id = Auth::user()->id;
                 
-            }
-            else
-            {              
-                $request->session()->put('user',1);
-                $id = 1;
-                echo 'initialisation du faux compte';
             }
         }
 
@@ -34,11 +28,11 @@ class UserController extends Controller
             if($name !== $userName ){
                 return redirect()->route('user.show', ['name'=>$userName, 'id'=>$id]);
             }
-            return "  d ".$name."     <br>".$user."     <br>".$user->name;
+            return "  d ".$name."     <br>".$user."     <br>".$user->name.(Auth::check() && Auth::user()->id===$user->id?"<a href=\"/user/$user->id/edit\">Edit</a>":"");
         }
         
         echo("Error User not found!");
-        return redirect('/');
+        return  redirect()->route('root');
     }
 
     public function create()
@@ -56,10 +50,11 @@ class UserController extends Controller
     }
     
     public function store(FormUserRequest $request){
-        $user = User::create([...$request->validated(), "power"=>7]);
-        dump($request->validated());
-        dump($user);
-        return 'create user';
+        $valid = $request->validated();
+        $valid['password'] = bcrypt($valid['password']);
+        $user = User::create([...$valid, "power"=>7]);
+        $request->session()->flash('message','Utilisateur Créer !');
+        return to_route('login');
     }
     
     public function edit(User $user){
@@ -67,7 +62,8 @@ class UserController extends Controller
     }
     public function update(FormUserRequest $request, User $user){
         $user->update($request->safe()->except(['password','password_confirmation']));
-        return 'update user';
+        $request->session()->flash('message','Utilisateur Modifier !');
+        return to_route('root');
     }
     
 }

@@ -49,6 +49,7 @@ class User extends Authenticatable
     
     public function cardsCreated()
     {
-        return $this->hasMany(Card::class);
+        $cardsCreated = Card::all()->where('owner_id', $this->id);
+        return $cardsCreated;
     }
 }

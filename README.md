@@ -1,4 +1,56 @@
-# FlashCard
+# Projet Flashcards:
+
+## Aperçu:
+
+Le Projet Flashcards est une initiative en cours visant à créer une plateforme pour créer, gérer et pratiquer des cartes mémoire afin d'aider à l'apprentissage. 
+La version actuelle est en cours de développement et comprend des fonctionnalités de base telles qu'une interface utilisateur, la création de cartes et une validation de base des cartes.
+
+---
+## Fonctionnalités:
+
+### Interface Utilisateur :
+    Interface accessible pour que les utilisateurs puissent naviguer et interagir avec la plateforme.
+### Création de Cartes :
+    Capacité à créer des cartes mémoire contenant des informations pour étudier et apprendre.
+
+### Validation des Cartes :
+    Validation de base pour s'assurer que les cartes sont créées avec les informations requises.
+---
+## Démarrage:
+Pour initier le projet, suivez ces étapes :
+
+Exécutez*
+``` sh
+php artisan migrate
+```
+pour configurer la structure de base de données.
+Démarrez le serveur en exécutant* "php artisan serve".
+
+``` sh
+php artisan serve
+```
+\* Les commands doivent être effectuer à la racine du porjet
+
+---
+## État du Projet:
+Le projet est à un stade précoce et manque actuellement de plusieurs fonctionnalités prévues. Pour le moment, les utilisateurs ont accès à une interface de base pour créer et visualiser des cartes mémoire.
+
+Note Importante : Comme il s'agit d'un travail en cours, certaines fonctionnalités, notamment l'authentification utilisateur et le contrôle d'accès aux cartes, ne sont pas encore implémentées.
+
+---
+## Objectifs:
+L'objectif principal de ce projet est de construire une plateforme complète de cartes mémoire qui permette aux utilisateurs de créer, gérer et pratiquer des cartes mémoire pour un apprentissage efficace. Les fonctionnalités prévues comprennent une authentification utilisateur améliorée, une gestion améliorée des cartes et des outils d'étude affinés.
+
+---
+## Technologies Utilisées:
+
+- PHP
+- Framework Laravel
+- HTML/CSS
+- JavaScript
+
+
+<!-- # FlashCard
     Les cartes sont répertorier dans un theme
 
     Un theme peut être le sous theme d'un autre(en empechant les boucles, si les themes parant est deja dans les registres des sous-theme on passe au suivant)
@@ -405,4 +457,4 @@ afficher les messsages d'erreur
 definir la method
 ```php
 @method($card->id ? "PATCH" : "POST")
-```
+``` -->

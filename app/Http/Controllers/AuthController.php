@@ -21,12 +21,19 @@ class AuthController extends Controller
         if(Auth::attempt($credentials))
         {
             $request->session()->regenerate();
-            return redirect()->intended(route('card.index'));
+            $request->session()->flash('message','Connection efectué !');
+            // Session::flash('message', 'This is a message!'); 
+            return to_route('root') ;
+            // return to_route('root', ['LogSuccess' => "Connection"]);
         }
         return redirect()->back()->withInput();
     }
-    public function logout(){
-        Auth::logout();
-        return to_route('logout');
+    public function logout(Request $request){
+        if(Auth::check()){
+            Auth::logout();
+            $request->session()->flash('message','Déconnection efectué !');
+        }else
+            $request->session()->flash('message','Déconnection invalide !');
+        return to_route('root') ;
     }
 }
