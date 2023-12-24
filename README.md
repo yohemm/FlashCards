@@ -15,6 +15,10 @@ La version actuelle est en cours de développement et comprend des fonctionnalit
 
 ### Validation des Cartes :
     Validation de base pour s'assurer que les cartes sont créées avec les informations requises.
+### Remarque sur les editions de modèle de données:
+
+Veuillez noter que, en raison de contraintes de temps, les éditions des modèles de données ne sont pas actuellement restreintes en fonction des autorisations utilisateur. Toutes les fonctionnalités d'édition sont disponibles sans égard aux droits d'accès. 
+
 ---
 ## Démarrage:
 Pour initier le projet, suivez ces étapes :
@@ -42,13 +46,24 @@ Note Importante : Comme il s'agit d'un travail en cours, certaines fonctionnalit
 L'objectif principal de ce projet est de construire une plateforme complète de cartes mémoire qui permette aux utilisateurs de créer, gérer et pratiquer des cartes mémoire pour un apprentissage efficace. Les fonctionnalités prévues comprennent une authentification utilisateur améliorée, une gestion améliorée des cartes et des outils d'étude affinés.
 
 ---
+## Actions spécifié:
+1. L'URL "/" vous dirige vers la page d'accueil, l'index.
+2. Pour vous connecter, utilisez "/login".
+3. Déconnectez-vous à tout moment en accédant à "/logout".
+4. Accédez à votre espace personnel via "/user".
+5. Créez un nouveau compte en utilisant "/user/new".
+6. Consultez un compte spécifique en utilisant "/user/{pseudo}-{id}".
+7. Modifiez les détails de votre compte via "/user/{id}/edit".
+8. Explorez une liste complète de cartes en visitant "/card/".
+9. Obtenez des détails approfondis sur une carte spécifique via "/card/{slug}-{id}".
+10. Pour modifier une carte, utilisez "/card/{id}/edit".
+---
 ## Technologies Utilisées:
 
 - PHP
 - Framework Laravel
 - HTML/CSS
 - JavaScript
-
 
 <!-- # FlashCard
     Les cartes sont répertorier dans un theme
