@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class FormCardRequest extends FormRequest
+class FormCardRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.

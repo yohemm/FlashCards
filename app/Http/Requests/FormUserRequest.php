@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FormUserRequest extends FormRequest
+class FormUserRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.

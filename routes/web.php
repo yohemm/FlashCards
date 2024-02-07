@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\FlashCardController;
-use App\Http\Controllers\ThemeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Web\FlashCardController;
+use App\Http\Controllers\Web\ThemeController;
+use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
