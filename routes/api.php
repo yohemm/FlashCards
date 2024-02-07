@@ -23,7 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Creation de cartes (connecté)
-Route::post('/card/new',  [CardController::class, 'show'])->middleware('auth:sanctum');
+Route::put('/card/new/{question}/{answer}/{explication}',  [CardController::class, 'store'])->middleware('auth:sanctum');
+Route::patch('/card/{card}/update/{question}/{answer}/{explication}',  [CardController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/card/{card}/delete',  [CardController::class, 'delete'])->middleware('auth:sanctum');
 
 // Connexion
 // Route::post('/login', [AuthController::class, 'login']);
@@ -36,15 +38,19 @@ Route::get('/card', [CardController::class, 'all']);
 Route::get('/card/{card}', [CardController::class, 'single']);
 
 // Recherche de cartes
-Route::get('/card/search', [CardController::class, 'search']);
+Route::get('/card/search/{research}', [CardController::class, 'search']);
     
 // Cartes d'un joueur
 Route::get('/card/user/{user}', [UserController::class, 'cardOfPlayer'])->middleware('auth:sanctum');
-Route::get('/user/{user}', [UserController::class, 'single'])->middleware('auth:sanctum');
-Route::get('/user', [UserController::class, 'all']);
-
-    // Les joueurs qui utilisent la carte
+// Les joueurs qui utilisent la carte
 Route::get('/card/{card}/players', [CardController::class, 'playersHasCard']);
+
+
+Route::get('/user/{user}', [UserController::class, 'single'])->middleware('auth:sanctum');
+Route::put('/user/new/{name}/{email}', [UserController::class, 'store'])->middleware('auth:sanctum');
+Route::patch('/user/{user}/update/{name}/{email}', [UserController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/user/{user}/delete', [UserController::class, 'delete'])->middleware('auth:sanctum');
+Route::get('/user', [UserController::class, 'all']);
 
 
 ?>
