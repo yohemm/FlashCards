@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FormUserRequest;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    
     public function login(){
         $user = new User();
         return view('user.login', ['user'=>$user]);

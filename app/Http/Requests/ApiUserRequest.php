@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
 class ApiUserRequest extends ApiRequest
 {
@@ -23,28 +24,30 @@ class ApiUserRequest extends ApiRequest
      */
     public function rules(): array
     {
-        if(request()->route()->uri == 'login'){
+        dd(request());
+        if (request()->route()->uri == 'api/login'){
+            // dd(request());
             return [
                 'email' => ['required', 'min:8','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix'],
                 'password' => ['required', 'min:8'],
             ];
-
-        }
-        if(request()->route()->uri == 'user/{user}/edit'){
-            return [
-                'name' => ['required', 'min:8'],
-                'email' => ['required', 'min:8','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix', \Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
-            ];
-
         }
         return [
             'name' => ['required', 'min:8'],
             'email' => ['required', 'min:8','unique:users,email','email', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,8}$/ix'],
             'password' => ['required', 'min:8'],
-            'password_confirmation' => ['required', 'min:8','same:password']
+            'power' => ['required', 'numeric']
         ];
     }
-
+    
+    public function prepareForValidation()
+    {   
+        $this->merge([
+            'password' => $this->input('password') ?bcrypt($this->input('password')): Auth::user()->password,
+            'power' => $this->input('power') ?: 8
+        ]);
+    
+    }
 
     public function messages(){
         return[

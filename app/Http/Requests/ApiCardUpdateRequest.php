@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Card;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
-class ApiCardRequest extends ApiRequest
+class ApiCardUpdateRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,20 +30,20 @@ class ApiCardRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'question' => ['required', 'min:10'],
-            'answer' => ['required', 'min:8'],
-            'slug' => ['required', 'min:8', 'regex:/^[0-9a-z\-]+$/'],
-            'owner_id' => ['required', 'regex:/^[0-9]+$/'],
+            'question' => ['min:10'],
+            'answer' => ['min:8'],
+            'slug' => ['min:8', 'regex:/^[0-9a-z\-]+$/'],
             'explication' => []
         ];
     }
 
     public function prepareForValidation()
     {
-        $this->merge([
-            'slug' => $this->input('slug') ?: \Str::slug($this->input('question')),
-            'owner_id' => $this->input('owner_id') ?: Auth::user()->id
-        ]);
+        if( $this->input('question')){
+            $this->merge([
+                'slug' => $this->input('slug') ?: \Str::slug($this->input('question'))
+            ]);
+        }
     }
 
 }
