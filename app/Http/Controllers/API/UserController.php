@@ -22,7 +22,7 @@ class UserController extends Controller
    
     public function store(ApiUserRequest $request)
     {
-        return User::create($request->validated());
+        return UserResource::make(User::create($request->validated()));
     }
     public function update(User $user, ApiUserRequest $request){
         // retour + FormRequest Passe

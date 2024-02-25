@@ -28,6 +28,7 @@ class ApiCardRequest extends ApiRequest
      */
     public function rules(): array
     {
+        // dd($this->request);
         return [
             'question' => ['required', 'min:10'],
             'answer' => ['required', 'min:8'],

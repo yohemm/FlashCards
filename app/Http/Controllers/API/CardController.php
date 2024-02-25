@@ -21,11 +21,14 @@ class CardController extends Controller
     }
     public function store(ApiCardRequest $request)
     {
-        return Card::create($request->validated());
+        return CardResource::make(Card::create($request->validated()));
     }
     public function update(Card $card, ApiCardUpdateRequest $request){
         // retour + FormRequest Passe
         $card->update($request->validated());
+        dd($card);
+        
+        $card->saveOrFail();
         return CardResource::make($card);
     }
     public function cardOfPlayer(User $user){

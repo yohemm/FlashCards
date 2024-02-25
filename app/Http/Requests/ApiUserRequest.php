@@ -24,7 +24,6 @@ class ApiUserRequest extends ApiRequest
      */
     public function rules(): array
     {
-        dd(request());
         if (request()->route()->uri == 'api/login'){
             // dd(request());
             return [
@@ -42,8 +41,8 @@ class ApiUserRequest extends ApiRequest
     
     public function prepareForValidation()
     {   
+        if (request()->route()->uri == 'api/user/new')$this->merge(['password' => $this->input('password') ?bcrypt($this->input('password')): Auth::user()->password]);
         $this->merge([
-            'password' => $this->input('password') ?bcrypt($this->input('password')): Auth::user()->password,
             'power' => $this->input('power') ?: 8
         ]);
     

@@ -11,12 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function connection(ApiUserRequest $request){
-        // $credentials = $request->validated();
+        $credentials = $request->validated();
         // dd($credentials);
-        if(Auth::attempt($request->only('email', 'password')))
+        if(Auth::attempt($credentials))
         {
             /** @var User $user*/ 
-            dd($request['email']);
             $user = User::where('email', $request['email'])->firstOrFail();
 
             $token = $user->createToken('api-token');
@@ -29,6 +28,7 @@ class AuthController extends Controller
     }
     public function logout(){
         $res = Auth::check();
+        // dd(Auth::check());
         if ($res) Auth::logout();
         return response()->json($res, 200);
     }

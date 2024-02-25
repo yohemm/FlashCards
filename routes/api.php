@@ -50,12 +50,12 @@ Route::get('/card/user/{user}', [CardController::class, 'cardOfPlayer']);
 Route::get('/card/{card}/players', [UserController::class, 'playersHasCard']);
 
 
-Route::get('/user/{user}', [UserController::class, 'show']);
-Route::put('/user/new/', [UserController::class, 'store']);
+Route::get('/user/{user}', [UserController::class, 'show']); // marche
+Route::put('/user/new/', [UserController::class, 'store']); // marche 
 Route::middleware('auth:sanctum')->patch('/user/{user}/update', [UserController::class, 'update']);
 
 Route::middleware('auth:sanctum')->delete('/user/{user}/delete', [UserController::class, 'destroy']);
-Route::get('/user', [UserController::class, 'all']);
+Route::get('/user', [UserController::class, 'all']); // marche
 
 
 ?>
