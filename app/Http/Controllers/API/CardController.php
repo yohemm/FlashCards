@@ -26,9 +26,6 @@ class CardController extends Controller
     public function update(Card $card, ApiCardUpdateRequest $request){
         // retour + FormRequest Passe
         $card->update($request->validated());
-        dd($card);
-        
-        $card->saveOrFail();
         return CardResource::make($card);
     }
     public function cardOfPlayer(User $user){
@@ -38,5 +35,17 @@ class CardController extends Controller
     {
         return $card->delete();
         return response()->json([], 200);
+    }
+    public function search(String $research)
+    {
+     
+        $cardsWithUsers = DB::table('cards')
+                    ->join('users', 'cards.owner_id', '=', 'users.id')
+                    ->select('cards.*', 'users.*')
+                    ->where('cards.question', 'ilike', '%' . $research . '%')
+                    ->get();
+        
+      
+        return UserResource::collection($cardsWithUsers);
     }
 }

@@ -35,6 +35,7 @@ Route::delete('/card/{card}/delete',  [CardController::class, 'destroy']);
 
 
 Route::post('/login', [AuthController::class,'connection'])->name('api-login');
+Route::get('/islogin', [AuthController::class,'logout'])->name('isLogin');
 Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 
 // Liste de toutes les cartes
@@ -50,7 +51,7 @@ Route::get('/card/user/{user}', [CardController::class, 'cardOfPlayer']);
 Route::get('/card/{card}/players', [UserController::class, 'playersHasCard']);
 
 
-Route::get('/user/{user}', [UserController::class, 'show']); // marche
+Route::get('/user/{user}', [UserContxroller::class, 'show']); // marche
 Route::put('/user/new/', [UserController::class, 'store']); // marche 
 Route::middleware('auth:sanctum')->patch('/user/{user}/update', [UserController::class, 'update']);
 

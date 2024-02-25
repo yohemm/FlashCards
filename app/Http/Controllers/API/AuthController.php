@@ -18,13 +18,16 @@ class AuthController extends Controller
             /** @var User $user*/ 
             $user = User::where('email', $request['email'])->firstOrFail();
 
-            $token = $user->createToken('api-token');
+            $token = $user->createToken('api-token', ['server:update']);
             return response()->json([
                 'User'=>UserResource::make($user),
-                'Token'=>$token
+                'Token'=>$token->plainTextToken
             ]);
         }
-        return response()->json(["grosse merde"], 200);
+        return response()->json(["Connexion Invalide"], 200);
+    }
+    public function isLogin(){
+        return auth('sanctum');
     }
     public function logout(){
         $res = Auth::check();
