@@ -35,7 +35,7 @@ Route::delete('/card/{card}/delete',  [CardController::class, 'destroy']);
 
 
 Route::post('/login', [AuthController::class,'connection'])->name('api-login');
-Route::get('/islogin', [AuthController::class,'logout'])->name('isLogin');
+Route::get('/islogin', [AuthController::class,'isLogin'])->name('isLogin');
 Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 
 // Liste de toutes les cartes

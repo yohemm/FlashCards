@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiCardRequest;
 use App\Http\Requests\ApiCardUpdateRequest;
 use App\Http\Resources\CardResource;
+use App\Http\Resources\UserResource;
 use App\Models\Card;
 use App\Models\User;
 
@@ -13,7 +14,12 @@ class CardController extends Controller
 {
     public function all()
     {
-        return CardResource::collection(Card::all());
+        // Evite requete N+1
+        $cards = Card::query()
+            ->with('owner')
+            ->get();
+
+        return CardResource::collection($cards);
     }
     public function show(Card $card)
     {
@@ -33,19 +39,18 @@ class CardController extends Controller
     }
     public function destroy(Card $card)
     {
-        return $card->delete();
+        $card->delete();
         return response()->json([], 200);
     }
     public function search(String $research)
     {
-     
         $cardsWithUsers = DB::table('cards')
                     ->join('users', 'cards.owner_id', '=', 'users.id')
                     ->select('cards.*', 'users.*')
                     ->where('cards.question', 'ilike', '%' . $research . '%')
                     ->get();
-        
-      
+
+
         return UserResource::collection($cardsWithUsers);
     }
 }
