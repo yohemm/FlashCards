@@ -2,6 +2,16 @@
 # Flash Cards
 
 <!-- ![Project Banner](path/to/banner/image)  -->
+## 🌟 Project Status
+
+> **Current Status**: **:red_circle: Discontinued**  
+> Not maintained
+>
+> Can have somes bugs
+>
+> Learning Project
+
+---
 
 ## Overview
 
